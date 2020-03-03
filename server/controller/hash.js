@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('env2')('./config.env');
 
-
 const hashPassword = (password) => new Promise((resolve, reject) => {
   bcrypt.genSalt(10, (err, salt) => {
     if (err) reject(err);
@@ -26,7 +25,6 @@ const generateToken = (data) => new Promise((resolve, reject) => {
     resolve(token);
   });
 });
-
 
 module.exports = {
   hashPassword,
