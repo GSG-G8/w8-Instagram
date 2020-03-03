@@ -3,6 +3,8 @@ const { join } = require('path');
 const express = require('express');
 const compression = require('compression');
 
+const router = require('./controller');
+
 const app = express();
 
 app.disabled('x-powered-by');
@@ -13,5 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(join(__dirname, '..', 'public')));
+
+app.use(router);
 
 module.exports = app;

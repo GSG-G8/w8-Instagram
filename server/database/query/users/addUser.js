@@ -5,4 +5,4 @@ const insertUser = (reqData) => dbConnection.query({
   values: [reqData.name, reqData.email, reqData.password],
 });
 
-module.exports = { insertUser };
+module.exports = insertUser;
