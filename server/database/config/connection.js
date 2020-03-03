@@ -14,9 +14,11 @@ if (process.env.NODE_ENV === 'test') {
 
 if (!dbUrl) throw new Error('THERE IS NO DATABASE!');
 
-const option = {
+const options = {
   connectionString: dbUrl,
-  ssl: true,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 };
 
-module.exports = new Pool(option);
+module.exports = new Pool(options);
