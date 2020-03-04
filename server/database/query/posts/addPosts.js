@@ -5,4 +5,4 @@ const insertPost = (reqData) => dbConnection.query({
   values: [reqData.title, reqData.image, reqData.details, reqData.userId],
 });
 
-module.exports = { insertPost };
+module.exports = insertPost;

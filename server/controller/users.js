@@ -45,7 +45,10 @@ exports.login = (req, res) => {
     email: Joi.string().email().required(),
     password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/).required(),
   });
-  const { error, value } = schema.validate(req.body);
+  const { error, value } = schema.validate(req.body)
+  if (error) console.log('Error is: ', error.message);
+  else {
+    console.log(value);
   if (error) {
     res.status(400).json({ message: error.message });
   } else {
