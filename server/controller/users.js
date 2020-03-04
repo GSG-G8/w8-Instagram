@@ -45,7 +45,7 @@ exports.login = (req, res) => {
     email: Joi.string().email().required(),
     password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/).required(),
   });
-  const { error , value} = schema.validate(req.body);
+  const { error, value } = schema.validate(req.body);
   if (error) {
     res.status(400).json({ message: error.message });
   } else {
@@ -59,15 +59,20 @@ exports.login = (req, res) => {
         } else {
           console.log(req.body.password, user.password);
           comparePasswords(req.body.password, user.password)
-          .then((valid) => {
-            if (!valid) {
-              res.status(400).json({ message: 'incorrect password' });
-            } else {
-              generateToken(user.email).then((token) => res.cookie('user_email', token).redirect('/'));
-            }
-          });
+            .then((valid) => {
+              if (!valid) {
+                res.status(400).json({ message: 'incorrect password' });
+              } else {
+                generateToken(user.email).then((token) => res.cookie('user_email', token).redirect('/'));
+              }
+            });
         }
       })
       .catch(res.json);
   }
+};
+
+exports.logout = (req, res) => {
+  res.clearCookie('user_email');
+  res.redirect('/');
 };
