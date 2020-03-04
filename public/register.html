@@ -2,27 +2,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style/style.css">
+  <link rel="stylesheet" href="style/login.css">
+  <link
+      href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&display=swap"
+      rel="stylesheet"
+    />
   <title>PHOTO SHARE</title>
 </head>
 <body>
   <section>
-    <div class="image"></div>
-    <div class="signUp">
-      <div class="signUp__logo"></div>
-      <form action="/login" method="POST">
-        <h1 class="signUp__header">LOG IN</h1>
+    <div class="login register">
+      <form action="/login" method="POST" class="login__form">
+        <h1 class="login__header">Registeration Info</h1>
         <label for="name">Name</label>
-        <input type="text" name="name" id="name">
+        <input type="text" name="name" id="name" placeholder="Name">
         <label for="email">Email Address</label>
-        <input type="email" name="email" id="email">
+        <input type="email" name="email" id="email" placeholder="Email Address">
         <label for="password">password</label>
-        <input type="password" name="password" id="password">
+        <input type="password" name="password" id="password" placeholder="Password">
         <label for="confirm">Confirm password</label>
-        <input type="password" name="confirm" id="confirm">
+        <input type="password" name="confirm" id="confirm" placeholder="Confirm Password">
         <label for="signUp-submit">submit</label>
-        <input type="submit" id="signUp-submit" value="Sign Up">
+        <input type="submit" id="signUp-submit" value="SIGN UP">
       </form>
-      <a href="register.html">Have you an account?</a>
+      <a href="login.html" class="login__anch">Have you an account?</a>
     </div>
   </section>
 </body>

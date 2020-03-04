@@ -1,0 +1,75 @@
+body {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+  url("../images/photo-1578678346424-41f8dcc13ea9.jpeg") no-repeat center center;
+  background-size: cover;
+}
+
+.login {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #FFEDE3;
+  box-shadow: 1px 5px 14px 2px #E0ACB4;
+  width: 400px;
+  height: 300px;
+  padding: 20px;
+  border-radius: 12px;
+  color: #287b72;
+  text-align: center;
+}
+
+.login__header {
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.login__form {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.login__form input {
+  padding: 8px 15px;
+  font-size: 16px;
+  border-radius: 20px;
+  display: inline-block;
+  width: 80%;
+  margin-bottom: 10px;
+  outline: none;
+  border: none;
+}
+
+.login__form input:focus {
+  border: 1px solid #287b72;
+}
+
+label {
+  display: none;
+}
+
+#login-submit, #signUp-submit {
+  border: 2px solid #287b72;
+  color: #ffffff;
+  background-color: #287b72;
+  cursor: pointer;
+  letter-spacing: 2px;
+}
+
+#login-submit:hover, #signUp-submit:hover {
+  color: #287b72;
+  background-color: transparent;
+}
+
+.login__anch {
+  color: #287b72;
+}
+
+.login__anch:hover {
+  text-decoration: underline;
+}
+
+/* register */
+.register {
+  height: 400px;
+}

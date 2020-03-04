@@ -2,6 +2,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&display=swap"
+      rel="stylesheet"
+    />
   <title>PHOTO SHARE</title>
 </head>
 <body>
@@ -9,21 +15,44 @@
     <div class="container">
       <nav class="header__navbar">
         <div class="header_logo">
-          <a href="index.html">logo</a>
+          <a href="index.html"><img src="images/bbae80e1-ec8d-4ef3-98f5-ed6579b69bcf_200x200 (2).png" alt="violet"></a>
         </div>
         <div class="header__right-nav">
           <ul>
-            <li><a href="login.html">Log In</a></li>
-            <li><a href="register.html">Sign Up</a></li>
-            <li><a href="login.html">Log Out</a></li>
+            <li><a href="register.html">NEW POST</a></li>
+            <li><a href="login.html">LOG OUT</a></li>
           </ul>
         </div>
       </nav>
+      <div class="header__user">
+        <div class="header__folio">
+          <img src="images/Jeff-Glor.jpg" alt="user" class="header__img">
+        </div>
+        <h1>Matt Johney</h1>
+      </div>
     </div>
   </header>
   <main class="main">
     <div class="container">
-      
+      <div class="posts">
+        <div class="posts__item">
+          <div class="posts__user">
+            <div class="posts__folio">
+              <img src="images/Jeff-Glor.jpg" alt="user" class="posts__img">
+            </div>
+            <h1>Matt Johney</h1>
+          </div>
+          <div class="posts__post">
+            <div class="posts_thumbnail">
+              <img src="images/Jeff-Glor.jpg" alt="post">
+            </div>
+            <div class="posts__details">
+              <h2>title</h2>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint accusantium consequatur voluptate sed numquam </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 </body>
