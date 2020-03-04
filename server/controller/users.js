@@ -74,3 +74,8 @@ exports.login = (req, res) => {
       .catch(res.json);
   }
 };
+
+exports.logout = (req, res) => {
+  res.clearCookie('name');
+  res.redirect('/');
+};
