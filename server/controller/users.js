@@ -1,3 +1,4 @@
+const Joi = require('joi');
 const getUser = require('../database/query/users/getUser');
 const addUser = require('../database/query/users/addUser');
 const {
@@ -6,6 +7,24 @@ const {
 } = require('./hash');
 
 exports.register = (req, res) => {
+  const data = {
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    confirm: req.body.confirm,
+  };
+  const schema = Joi.object().keys({
+    name: Joi.string().alphanum().min(3).max(20)
+      .required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/).required(),
+    confirm: Joi.ref('password'),
+  });
+  const { err, value } = schema.validate(data);
+  if (err) console.log('Error is: ', err);
+  else {
+    console.log(value);
+  }
   getUser(req.body.email)
     .then((result) => result.rows)
     .then((user) => {
@@ -26,10 +45,21 @@ exports.register = (req, res) => {
 
 exports.login = (req, res) => {
   // eslint-disable-next-line no-console
-  console.log(req.body);
+  const data = {
+    email: req.body.email,
+    password: req.body.password,
+  };
+  const schema = Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/).required(),
+  });
+  const { err, value } = schema.validate(data);
+  if (err) console.log('Error is: ', err);
+  else {
+    console.log(value);
+  }
   getUser(req.body.email)
     .then((result) => res.json(result.rows[0]))
     // eslint-disable-next-line no-console
     .catch(console.error);
-
 };
