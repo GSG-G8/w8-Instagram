@@ -59,20 +59,18 @@ exports.login = (req, res) => {
   const { error, value } = schema.validate(data);
   if (error) console.log('Error is: ', error.message);
   else {
-    console.log(value);
+    getUser(req.body.email)
+      .then((result) => result.rows[0])
+      .then((user) => {
+        comparePasswords(req.body.password, user.password)
+          .then((valid) => {
+            if (!valid) {
+              res.json({ message: 'incorrect password' });
+            } else {
+              generateToken(user.email).then((token) => res.cookie('name', token).redirect('/'));
+            }
+          });
+      })
+      .catch(res.json);
   }
-
-  getUser(req.body.email)
-    .then((result) => result.rows[0])
-    .then((user) => {
-      comparePasswords(req.body.password, user.password)
-        .then((valid) => {
-          if (!valid) {
-            res.json({ message: 'incorrect password' });
-          } else {
-            generateToken(user.email).then((token) => res.cookie('name', token).redirect('/'));
-          }
-        });
-    })
-    .catch(res.json);
 };
