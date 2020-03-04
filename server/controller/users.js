@@ -4,15 +4,11 @@ const addUser = require('../database/query/users/addUser');
 const {
   hashPassword,
   comparePasswords,
+  generateToken,
 } = require('./hash');
 
+
 exports.register = (req, res) => {
-  const data = {
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    confirm: req.body.confirm,
-  };
   const schema = Joi.object().keys({
     name: Joi.string().alphanum().min(3).max(20)
       .required(),
@@ -20,42 +16,66 @@ exports.register = (req, res) => {
     password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/).required(),
     confirm: Joi.ref('password'),
   });
-  const { error, value } = schema.validate(data);
-  if (error) console.log('Error is: ', error.message);
-  else {
-    console.log(value);
-  }
-  getUser(req.body.email)
-    .then((result) => result.rows)
-    .then((user) => {
-      if (user.length !== 0) {
-        res.json({
-          message: 'user already exists',
-        });
-      } else {
-        hashPassword(req.body.password)
-          .then((hash) => {
-            req.body.password = hash;
-            addUser(req.body)
-              .then((result) => res.json(result.rows));
+  const { error, value } = schema.validate(req.body);
+  if (error) {
+    res.status(400).json({ message: error.message });
+  } else {
+    getUser(value.email)
+      .then((result) => result.rows)
+      .then((user) => {
+        if (user.length !== 0) {
+          res.status(400).json({
+            message: 'user already exists',
           });
-      }
-    });
+        } else {
+          hashPassword(value.password)
+            .then((hash) => {
+              value.password = hash;
+              addUser(value)
+                .then(() => res.status(200).json({ message: '' }))
+                .catch(() => res.status(400).json({ message: 'failed !' }));
+            });
+        }
+      });
+  }
 };
 
 exports.login = (req, res) => {
-  // eslint-disable-next-line no-console
   const schema = Joi.object().keys({
     email: Joi.string().email().required(),
     password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/).required(),
   });
-  const { error, value } = schema.validate(req.body);
+  const { error, value } = schema.validate(req.body)
   if (error) console.log('Error is: ', error.message);
   else {
     console.log(value);
+  if (error) {
+    res.status(400).json({ message: error.message });
+  } else {
+    getUser(value.email)
+      .then((result) => result.rows[0])
+      .then((user) => {
+        if (user === undefined) {
+          res.status(400).json({
+            message: 'user doesnt exists',
+          });
+        } else {
+          console.log(req.body.password, user.password);
+          comparePasswords(req.body.password, user.password)
+            .then((valid) => {
+              if (!valid) {
+                res.status(400).json({ message: 'incorrect password' });
+              } else {
+                generateToken(user.email).then((token) => res.cookie('user_email', token).redirect('/'));
+              }
+            });
+        }
+      })
+      .catch(res.json);
   }
-  getUser(req.body.email)
-    .then((result) => res.json(result.rows[0]))
-    // eslint-disable-next-line no-console
-    .catch(console.error);
+};
+
+exports.logout = (req, res) => {
+  res.clearCookie('user_email');
+  res.redirect('/');
 };

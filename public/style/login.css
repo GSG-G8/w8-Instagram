@@ -24,12 +24,14 @@ body {
   margin-bottom: 20px;
 }
 
-.login__form {
+.login__form,
+.register__form {
   margin-bottom: 15px;
   font-size: 18px;
 }
 
-.login__form input {
+.login__form input,
+.register__form input{
   padding: 8px 15px;
   font-size: 16px;
   border-radius: 20px;
@@ -40,7 +42,8 @@ body {
   border: none;
 }
 
-.login__form input:focus {
+.login__form input:focus,
+.register__form input:focus {
   border: 1px solid #287b72;
 }
 
@@ -73,4 +76,7 @@ label {
 .register {
   height: 400px;
 }
- 
+
+.form__message {
+  color: red;
+}
