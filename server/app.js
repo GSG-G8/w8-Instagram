@@ -18,4 +18,9 @@ app.use(express.static(join(__dirname, '..', 'public')));
 
 app.use(router);
 
+// app.use((err, req, res, next)=>{
+//   console.log(111111, err)
+//   res.json({err: "errrrr"})
+// })
+
 module.exports = app;

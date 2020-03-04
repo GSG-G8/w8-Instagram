@@ -1,3 +1,4 @@
+const Joi = require('@hapi/joi');
 const getUser = require('../database/query/users/getUser');
 const addUser = require('../database/query/users/addUser');
 const {
@@ -6,30 +7,61 @@ const {
   generateToken,
 } = require('./hash');
 
-const cookie=require('cookie')
 
-exports.register = (req, res) => {
-  getUser(req.body.email)
-    .then((result) => result.rows)
-    .then((user) => {
-      console.log(user)
-      if (user.length !== 0) {
-        res.json({
-          message: 'user already exists',
-        });
-      } else {
-        hashPassword(req.body.password)
-          .then((hash) => {
-            req.body.password = hash;
-            addUser(req.body)
-              .then((result) => res.json(result.rows));
+exports.register = (req, res, next) => {
+  const data = {
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    confirm: req.body.confirm,
+  };
+  const schema = Joi.object().keys({
+    name: Joi.string().alphanum().min(3).max(20)
+      .required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/).required(),
+    confirm: Joi.ref('password'),
+  });
+  const { error, value } = schema.validate(data);
+  if (error) console.log('Error is: ', error.message);
+  else {
+    console.log(value);
+
+    getUser(data.email)
+      .then((result) => result.rows)
+      .then((user) => {
+        if (user.length !== 0) {
+          res.json({
+            message: 'user already exists',
           });
-      }
-    });
+        } else {
+          hashPassword(data.password)
+            .then((hash) => {
+              data.password = hash;
+              addUser(data)
+                .then((result) => res.json(result.rows));
+            });
+        }
+      })
+      .catch(next);
+  }
 };
 
-
 exports.login = (req, res) => {
+  const data = {
+    email: req.body.email,
+    password: req.body.password,
+  };
+  const schema = Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/).required(),
+  });
+  const { error, value } = schema.validate(data);
+  if (error) console.log('Error is: ', error.message);
+  else {
+    console.log(value);
+  }
+
   getUser(req.body.email)
     .then((result) => result.rows[0])
     .then((user) => {
