@@ -1,59 +1,120 @@
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style/style.css" />
     <link
       href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&display=swap"
       rel="stylesheet"
     />
-  <title>PHOTO SHARE</title>
-</head>
-<body>
-  <header class="header">
-    <div class="container">
-      <nav class="header__navbar">
-        <div class="header_logo">
-          <a href="index.html"><img src="images/bbae80e1-ec8d-4ef3-98f5-ed6579b69bcf_200x200 (2).png" alt="violet"></a>
-        </div>
-        <div class="header__right-nav">
-          <ul>
-            <li><a href="register.html">NEW POST</a></li>
-            <li><a href="login.html">LOG OUT</a></li>
-          </ul>
-        </div>
-      </nav>
-      <div class="header__user">
-        <div class="header__folio">
-          <img src="images/Jeff-Glor.jpg" alt="user" class="header__img">
-        </div>
-        <h1>Matt Johney</h1>
-      </div>
-    </div>
-  </header>
-  <main class="main">
-    <div class="container">
-      <div class="posts">
-        <div class="posts__item">
-          <div class="posts__user">
-            <div class="posts__folio">
-              <img src="images/Jeff-Glor.jpg" alt="user" class="posts__img">
-            </div>
-            <h1>Matt Johney</h1>
+    <title>PHOTO SHARE</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <nav class="header__navbar">
+          <div class="header_logo">
+            <a href="index.html"
+              ><img
+                src="images/bbae80e1-ec8d-4ef3-98f5-ed6579b69bcf_200x200 (2).png"
+                alt="violet"
+            /></a>
           </div>
-          <div class="posts__post">
-            <div class="posts_thumbnail">
-              <img src="images/Jeff-Glor.jpg" alt="post">
-            </div>
-            <div class="posts__details">
-              <h2>title</h2>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint accusantium consequatur voluptate sed numquam </p>
-            </div>
+          <div class="header__right-nav">
+            <ul>
+              <li><button class="new-post">NEW POST</button></li>
+              <li><a href="login.html">LOG OUT</a></li>
+            </ul>
           </div>
+        </nav>
+        <div class="header__user">
+          <div class="header__folio">
+            <img src="images/Jeff-Glor.jpg" alt="user" class="header__img" />
+          </div>
+          <h1>Matt Johney</h1>
         </div>
       </div>
+    </header>
+    <main class="main">
+      <div class="container">
+        <div class="posts">
+          <div class="posts__item">
+            <div class="posts__user">
+              <div class="posts__folio">
+                <img src="images/Jeff-Glor.jpg" alt="user" class="posts__img" />
+              </div>
+              <h1>Matt Johney</h1>
+            </div>
+            <div class="posts__post">
+              <div class="posts_thumbnail">
+                <img src="images/Jeff-Glor.jpg" alt="post" />
+              </div>
+              <div class="posts__details">
+                <h2>title</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="posts__item">
+            <div class="posts__user">
+              <div class="posts__folio">
+                <img src="images/Jeff-Glor.jpg" alt="user" class="posts__img" />
+              </div>
+              <h1>Matt Johney</h1>
+            </div>
+            <div class="posts__post">
+              <div class="posts_thumbnail">
+                <img src="images/Jeff-Glor.jpg" alt="post" />
+              </div>
+              <div class="posts__details">
+                <h2>title</h2>
+                <p>Lorem ipsum dolor sit amet consectetur</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="posts__item">
+            <div class="posts__user">
+              <div class="posts__folio">
+                <img src="images/Jeff-Glor.jpg" alt="user" class="posts__img" />
+              </div>
+              <h1>Matt Johney</h1>
+            </div>
+            <div class="posts__post">
+              <div class="posts_thumbnail">
+                <img src="images/Jeff-Glor.jpg" alt="post" />
+              </div>
+              <div class="posts__details">
+                <h2>title</h2>
+                <p>Lorem ipsum dolor sit amet</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h1>Add New Post</h1>
+        <form>
+          <label for="title">Title</label>
+          <input type="text" name="title" id="title" placeholder="Title">
+          <label for="thumbnail">Thumbnail</label>
+          <input type="url" name="thumbnail" id="thumbnail" placeholder="Image Url">
+          <label for="details">Details</label>
+          <textarea name="details" id="details" cols="30" rows="10" placeholder="Post Details"></textarea></textarea>
+          <label for="add-post">submit</label>
+          <input type="submit" id="add-post" value="ADD POST">
+        </form>
+      </div>
     </div>
-  </main>
-</body>
+
+    <script src="./script/dom.js"></script>
+  </body>
 </html>
