@@ -8,13 +8,7 @@ const {
 } = require('./hash');
 
 
-exports.register = (req, res, next) => {
-  const data = {
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    confirm: req.body.confirm,
-  };
+exports.register = (req, res) => {
   const schema = Joi.object().keys({
     name: Joi.string().alphanum().min(3).max(20)
       .required(),
@@ -22,60 +16,63 @@ exports.register = (req, res, next) => {
     password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/).required(),
     confirm: Joi.ref('password'),
   });
-  const { error, value } = schema.validate(data);
-  if (error) console.log('Error is: ', error.message);
-  else {
-    console.log(value);
-
-    getUser(data.email)
+  const { error, value } = schema.validate(req.body);
+  if (error) {
+    res.status(400).json({ message: error.message });
+  } else {
+    getUser(value.email)
       .then((result) => result.rows)
       .then((user) => {
         if (user.length !== 0) {
-          res.json({
+          res.status(400).json({
             message: 'user already exists',
           });
         } else {
-          hashPassword(data.password)
+          hashPassword(value.password)
             .then((hash) => {
-              data.password = hash;
-              addUser(data)
-                .then((result) => res.json(result.rows));
+              value.password = hash;
+              addUser(value)
+                .then(() => res.status(200).json({ message: '' }))
+                .catch(() => res.status(400).json({ message: 'failed !' }));
             });
         }
-      })
-      .catch(next);
+      });
   }
 };
 
 exports.login = (req, res) => {
-  const data = {
-    email: req.body.email,
-    password: req.body.password,
-  };
   const schema = Joi.object().keys({
     email: Joi.string().email().required(),
     password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/).required(),
   });
-  const { error, value } = schema.validate(data);
-  if (error) console.log('Error is: ', error.message);
-  else {
-    getUser(req.body.email)
+  const { error, value } = schema.validate(req.body);
+  if (error) {
+    res.status(400).json({ message: error.message });
+  } else {
+    getUser(value.email)
       .then((result) => result.rows[0])
       .then((user) => {
-        comparePasswords(req.body.password, user.password)
-          .then((valid) => {
-            if (!valid) {
-              res.json({ message: 'incorrect password' });
-            } else {
-              generateToken(user.email).then((token) => res.cookie('name', token).redirect('/'));
-            }
+        if (user === undefined) {
+          res.status(400).json({
+            message: 'user doesnt exists',
           });
+        } else {
+          console.log(req.body.password, user.password);
+          comparePasswords(req.body.password, user.password)
+            .then((valid) => {
+              if (!valid) {
+                res.status(400).json({ message: 'incorrect password' });
+              } else {
+                generateToken(user.email).then((token) => res.cookie('user_email', token).redirect('/'));
+              }
+            });
+        }
       })
       .catch(res.json);
   }
 };
 
 exports.logout = (req, res) => {
-  res.clearCookie('name');
+  res.clearCookie('user_email');
   res.redirect('/');
 };
