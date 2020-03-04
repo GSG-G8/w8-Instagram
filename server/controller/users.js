@@ -4,9 +4,11 @@ const addUser = require('../database/query/users/addUser');
 const {
   hashPassword,
   comparePasswords,
+  generateToken,
 } = require('./hash');
 
-exports.register = (req, res) => {
+
+exports.register = (req, res, next) => {
   const data = {
     name: req.body.name,
     email: req.body.email,
@@ -24,27 +26,28 @@ exports.register = (req, res) => {
   if (error) console.log('Error is: ', error.message);
   else {
     console.log(value);
-  }
-  getUser(req.body.email)
-    .then((result) => result.rows)
-    .then((user) => {
-      if (user.length !== 0) {
-        res.json({
-          message: 'user already exists',
-        });
-      } else {
-        hashPassword(req.body.password)
-          .then((hash) => {
-            req.body.password = hash;
-            addUser(req.body)
-              .then((result) => res.json(result.rows));
+
+    getUser(data.email)
+      .then((result) => result.rows)
+      .then((user) => {
+        if (user.length !== 0) {
+          res.json({
+            message: 'user already exists',
           });
-      }
-    });
+        } else {
+          hashPassword(data.password)
+            .then((hash) => {
+              data.password = hash;
+              addUser(data)
+                .then((result) => res.json(result.rows));
+            });
+        }
+      })
+      .catch(next);
+  }
 };
 
 exports.login = (req, res) => {
-  // eslint-disable-next-line no-console
   const data = {
     email: req.body.email,
     password: req.body.password,
@@ -58,8 +61,18 @@ exports.login = (req, res) => {
   else {
     console.log(value);
   }
+
   getUser(req.body.email)
-    .then((result) => res.json(result.rows[0]))
-    // eslint-disable-next-line no-console
-    .catch(console.error);
+    .then((result) => result.rows[0])
+    .then((user) => {
+      comparePasswords(req.body.password, user.password)
+        .then((valid) => {
+          if (!valid) {
+            res.json({ message: 'incorrect password' });
+          } else {
+            generateToken(user.email).then((token) => res.cookie('name', token).redirect('/'));
+          }
+        });
+    })
+    .catch(res.json);
 };
