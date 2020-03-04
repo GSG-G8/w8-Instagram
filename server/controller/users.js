@@ -45,15 +45,11 @@ exports.register = (req, res) => {
 
 exports.login = (req, res) => {
   // eslint-disable-next-line no-console
-  const data = {
-    email: req.body.email,
-    password: req.body.password,
-  };
   const schema = Joi.object().keys({
     email: Joi.string().email().required(),
     password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/).required(),
   });
-  const { error, value } = schema.validate(data);
+  const { error, value } = schema.validate(req.body);
   if (error) console.log('Error is: ', error.message);
   else {
     console.log(value);
