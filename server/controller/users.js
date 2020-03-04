@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const getUser = require('../database/query/users/getUser');
 const addUser = require('../database/query/users/addUser');
 const {
@@ -20,8 +20,8 @@ exports.register = (req, res) => {
     password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/).required(),
     confirm: Joi.ref('password'),
   });
-  const { err, value } = schema.validate(data);
-  if (err) console.log('Error is: ', err);
+  const { error, value } = schema.validate(data);
+  if (error) console.log('Error is: ', error.message);
   else {
     console.log(value);
   }
@@ -53,8 +53,8 @@ exports.login = (req, res) => {
     email: Joi.string().email().required(),
     password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/).required(),
   });
-  const { err, value } = schema.validate(data);
-  if (err) console.log('Error is: ', err);
+  const { error, value } = schema.validate(data);
+  if (error) console.log('Error is: ', error.message);
   else {
     console.log(value);
   }
