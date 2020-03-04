@@ -3,12 +3,16 @@ const addUser = require('../database/query/users/addUser');
 const {
   hashPassword,
   comparePasswords,
+  generateToken,
 } = require('./hash');
+
+const cookie=require('cookie')
 
 exports.register = (req, res) => {
   getUser(req.body.email)
     .then((result) => result.rows)
     .then((user) => {
+      console.log(user)
       if (user.length !== 0) {
         res.json({
           message: 'user already exists',
@@ -24,12 +28,19 @@ exports.register = (req, res) => {
     });
 };
 
-exports.login = (req, res) => {
-  // eslint-disable-next-line no-console
-  console.log(req.body);
-  getUser(req.body.email)
-    .then((result) => res.json(result.rows[0]))
-    // eslint-disable-next-line no-console
-    .catch(console.error);
 
+exports.login = (req, res) => {
+  getUser(req.body.email)
+    .then((result) => result.rows[0])
+    .then((user) => {
+      comparePasswords(req.body.password, user.password)
+        .then((valid) => {
+          if (!valid) {
+            res.json({ message: 'incorrect password' });
+          } else {
+            generateToken(user.email).then((token) => res.cookie('name', token).redirect('/'));
+          }
+        });
+    })
+    .catch(res.json);
 };
