@@ -1,44 +1,36 @@
 function getPosts() {
-  fetch("/posts")
-      .then(res => res.json())
-      .then(renderPosts)
+  fetch('/posts')
+    .then(res => res.json())
+    .then(renderPosts);
 }
 
 function addPost(data) {
   fetch('/posts', {
-      method: 'post',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data),
+  })
     .then(getPosts);
 }
 
 function login(data) {
-  fetch('/login', {
-      method: 'post',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(res => {
-      console.log(res);
-    })
+  return fetch('/login', {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
 }
 
 function register(data) {
-  fetch('/register', {
-      method: 'post',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(res => {
-      console.log(res);
-    })
+  return fetch('/register', {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
 }
