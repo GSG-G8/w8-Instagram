@@ -51,8 +51,9 @@ if (formLogin) {
   };
 }
 
-
-document.addEventListener('DOMContentLoaded', () => {
-  console.log("adadsdasddsa");
-  getPosts();
-});
+if (page === 'index') {
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log("adadsdasddsa");
+    getPosts();
+  });
+}
