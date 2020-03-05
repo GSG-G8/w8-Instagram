@@ -50,3 +50,9 @@ if (formLogin) {
       });
   };
 }
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log("adadsdasddsa");
+  getPosts();
+});
