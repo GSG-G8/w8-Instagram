@@ -1,7 +1,10 @@
 function getPosts() {
   fetch('/posts')
-    .then(res => res.json())
-    .then(renderPosts);
+    .then((res) => {
+      if (res.status === 400) {
+        window.location = '/login.html';
+      } else res.json().then(renderPosts);
+    });
 }
 
 function addPost(data) {
