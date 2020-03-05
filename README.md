@@ -11,7 +11,7 @@
 
 ## Why we build this project?
 
-Our project is a simple app to share your photo with a descriptive details for it, users can browse all posts on the main page. we add authentication for security, it also gives registered users more permisions like add posts.
+Our project is a simple app to share your photo with a descriptive details for it, users can browse all posts on the main page. we add authentication for security, it gives registered users more permisions like add posts.
 
 ## What is our project contain?
 
