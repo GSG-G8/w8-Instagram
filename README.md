@@ -1,4 +1,4 @@
-[You can visit our site from this link](https://w8-instagram.herokuapp.com/login.html)
+[You can visit our site from this link](https://w8-instagram.herokuapp.com)
 
 # w8-Instagram
 
