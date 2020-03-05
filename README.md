@@ -17,7 +17,7 @@ Our project is a simple app to share your photo with a descriptive details for i
 
 Our project contains two main sections:
 * The first section is header section: this section contains Logo for website  and links to log out and create posts.
-* The second section contains posts thats were store in database from users.
+* The second section contains posts thats were stored in database from users.
 
 ## How the process of building our project done?
 
